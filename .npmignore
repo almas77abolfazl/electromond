@@ -1,0 +1,9 @@
+# Ignore build and dev files
+dist/
+test/
+src/
+bin/
+node_modules/
+tsconfig.json
+webpack.config.js
+jest.config.js

@@ -1,0 +1,43 @@
+{
+  "name": "electromond",
+  "version": "1.0.0",
+  "description": "A framework combining Electron and modular component creation for easy app development.",
+  "main": "./bin/electromond.cli.js",
+  "type": "module",
+  "bin": {
+    "electromond": "./bin/electromond.cli.js"
+  },
+  "scripts": {
+    "build": "tsc && tsc-alias",
+    "test": "jest",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "electron",
+    "framework",
+    "cli",
+    "desktop",
+    "electromond"
+  ],
+  "author": "Abolfazl Nasiri Almas",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^25.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "jest": "^29.0.0",
+    "ts-jest": "^29.2.5",
+    "ts-loader": "^9.0.0",
+    "typescript": "^5.0.0",
+    "webpack": "^5.0.0",
+    "webpack-cli": "^5.0.0",
+    "@types/node": "^20.0.0"
+  },
+  "files": [
+    "dist",
+    "bin",
+    "src",
+    "README.md"
+  ]
+}
