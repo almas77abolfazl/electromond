@@ -1,11 +1,11 @@
 {
   "name": "electromond",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "A framework combining Electron and modular component creation for easy app development.",
   "main": "./bin/electromond.cli.js",
   "type": "module",
   "bin": {
-    "electromond": "./bin/electromond.cli.js"
+    "electromond": "bin/electromond.cli.js"
   },
   "scripts": {
     "build": "tsc && tsc-alias",
@@ -41,5 +41,16 @@
     "bin",
     "src",
     "README.md"
-  ]
+  ],
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/almas77abolfazl/electromond.git"
+  },
+  "bugs": {
+    "url": "https://github.com/almas77abolfazl/electromond/issues"
+  },
+  "homepage": "https://github.com/almas77abolfazl/electromond#readme"
 }

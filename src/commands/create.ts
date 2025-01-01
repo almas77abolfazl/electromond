@@ -200,7 +200,7 @@ function writeRendererIndex(projectPath: string) {
 // مثال ایجاد کامپوننت
 function writeExampleComponent(projectPath: string) {
   const content = `
-import { Component } from "../../../node_modules/electromond/dist/decorators/component.decorator";
+import { Component } from "electromond";
 
 @Component({
   selector: "app-example",
