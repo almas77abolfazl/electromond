@@ -10,18 +10,31 @@ export function createProject(projectName: string) {
   }
 
   fs.mkdirSync(projectPath, { recursive: true });
-  fs.mkdirSync(path.join(projectPath, "src"), { recursive: true });
-  fs.mkdirSync(path.join(projectPath, "src", "components"));
-  fs.mkdirSync(path.join(projectPath, "src", "components", "example"));
+  fs.mkdirSync(path.join(projectPath, "main", "actions"), { recursive: true });
+  fs.mkdirSync(path.join(projectPath, "main", "config"), { recursive: true });
+  fs.mkdirSync(path.join(projectPath, "main", "utils"), { recursive: true });
+  fs.mkdirSync(path.join(projectPath, "renderer", "components"), {
+    recursive: true,
+  });
+  fs.mkdirSync(path.join(projectPath, "renderer", "services"), {
+    recursive: true,
+  });
+  fs.mkdirSync(path.join(projectPath, "renderer", "pages"), {
+    recursive: true,
+  });
+  fs.mkdirSync(path.join(projectPath, "renderer", "assets"), {
+    recursive: true,
+  });
 
-  // ساخت فایل‌ها
+  // ایجاد فایل‌های اصلی
   writePackageJson(projectPath, projectName);
+  writeElectronBuilderConfig(projectPath);
   writeTsConfig(projectPath);
   writeGitIgnore(projectPath);
-  writeMainFile(projectPath);
-  writePreloadFile(projectPath);
-  writeIndexHtml(projectPath);
-  writeStyles(projectPath);
+  writeMainIndex(projectPath);
+  writeRendererIndex(projectPath);
+  writeMainConfig(projectPath);
+  writeCreateWindowAction(projectPath);
   writeExampleComponent(projectPath);
 
   execSync("npm install", { cwd: projectPath, stdio: "inherit" });
@@ -29,18 +42,20 @@ export function createProject(projectName: string) {
   console.log(`Project ${projectName} created successfully!`);
 }
 
-// نوشتن فایل package.json
+// فایل‌های موردنظر برای هر بخش را به ترتیب ایجاد می‌کنیم:
+
+// فایل package.json
 function writePackageJson(projectPath: string, projectName: string) {
   const content = {
     name: projectName,
     version: "1.0.0",
     main: "dist/main.js",
     scripts: {
-      start: "electromond start", // فراخوانی فریمورک
+      start: "electromond start",
       build: "electromond build",
     },
     dependencies: {
-      electromond: "latest",
+      electron: "^26.0.0",
     },
     devDependencies: {
       typescript: "^5.0.0",
@@ -52,17 +67,32 @@ function writePackageJson(projectPath: string, projectName: string) {
   );
 }
 
-// نوشتن فایل tsconfig.json
+// فایل electron-builder.json
+function writeElectronBuilderConfig(projectPath: string) {
+  const content = {
+    appId: "com.example.electromond",
+    directories: {
+      output: "dist",
+    },
+    files: ["main/**/*", "renderer/**/*"],
+  };
+  fs.writeFileSync(
+    path.join(projectPath, "electron-builder.json"),
+    JSON.stringify(content, null, 2)
+  );
+}
+
+// فایل tsconfig.json
 function writeTsConfig(projectPath: string) {
   const content = {
     compilerOptions: {
       target: "ES6",
       module: "CommonJS",
       outDir: "./dist",
-      rootDir: "./src",
+      rootDir: "./",
       strict: true,
     },
-    include: ["src/**/*"],
+    include: ["**/*"],
   };
   fs.writeFileSync(
     path.join(projectPath, "tsconfig.json"),
@@ -70,24 +100,46 @@ function writeTsConfig(projectPath: string) {
   );
 }
 
-// نوشتن فایل .gitignore
+// فایل .gitignore
 function writeGitIgnore(projectPath: string) {
   const content = `
 node_modules
 dist
 `;
-  fs.writeFileSync(path.join(projectPath, ".gitignore"), content);
+  fs.writeFileSync(path.join(projectPath, ".gitignore"), content.trim());
 }
 
-// نوشتن فایل src/main.ts
-function writeMainFile(projectPath: string) {
+// فایل main/index.ts
+function writeMainIndex(projectPath: string) {
   const content = `
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow } from "electron";
+import { createWindow } from "./actions/createWindow";
 
-let mainWindow: BrowserWindow | null;
+app.on("ready", createWindow);
 
-app.on('ready', () => {
-  mainWindow = new BrowserWindow({
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
+});
+
+app.on("activate", () => {
+  if (BrowserWindow.getAllWindows().length === 0) {
+    createWindow();
+  }
+});
+`;
+  fs.writeFileSync(path.join(projectPath, "main", "index.ts"), content.trim());
+}
+
+// فایل main/actions/createWindow.ts
+function writeCreateWindowAction(projectPath: string) {
+  const content = `
+import * as path from "path";
+import { BrowserWindow } from "electron";
+
+export function createWindow() {
+  let mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
@@ -95,34 +147,35 @@ app.on('ready', () => {
     },
   });
 
-  mainWindow.loadFile('src/index.html');
+  mainWindow.loadFile("../renderer/index.html");
 
-  mainWindow.on('closed', () => {
-    mainWindow = null;
+  mainWindow.on("closed", () => {
+   
   });
-});
+}
 `;
-  fs.writeFileSync(path.join(projectPath, "src", "main.ts"), content.trim());
+  fs.writeFileSync(
+    path.join(projectPath, "main", "actions", "createWindow.ts"),
+    content.trim()
+  );
 }
 
-// نوشتن فایل src/main.ts
-function writePreloadFile(projectPath: string) {
+// فایل main/config/config.ts
+function writeMainConfig(projectPath: string) {
   const content = `
-import { renderComponents } from "./utils/component-registry";
-
-// Render components dynamically
-window.addEventListener("DOMContentLoaded", () => {
-  const appElement = document.getElementById("app");
-  if (appElement) {
-    renderComponents(appElement);
-  }
-});
+export const config = {
+  appName: "Electromond",
+  version: "1.0.0",
+};
 `;
-  fs.writeFileSync(path.join(projectPath, "src", "preload.js"), content.trim());
+  fs.writeFileSync(
+    path.join(projectPath, "main", "config", "config.ts"),
+    content.trim()
+  );
 }
 
-// نوشتن فایل src/index.html
-function writeIndexHtml(projectPath: string) {
+// فایل renderer/index.html
+function writeRendererIndex(projectPath: string) {
   const content = `
 <!DOCTYPE html>
 <html lang="en">
@@ -130,59 +183,34 @@ function writeIndexHtml(projectPath: string) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Electromond App</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-  <h1>Welcome to Electromond!</h1>
+  <h1>Welcome to Electromond</h1>
   <div id="app"></div>
-  <script src="dist/bundle.js"></script>
 </body>
 </html>
 `;
-  fs.writeFileSync(path.join(projectPath, "src", "index.html"), content.trim());
-}
-
-// نوشتن فایل src/styles.css
-function writeStyles(projectPath: string) {
-  const content = `
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f4f4f4;
-}
-
-h1 {
-  color: #333;
-  text-align: center;
-  margin-top: 20px;
-}
-`;
-  fs.writeFileSync(path.join(projectPath, "src", "styles.css"), content.trim());
-}
-
-// نوشتن کامپوننت نمونه
-function writeExampleComponent(projectPath: string) {
-  const componentDir = path.join(projectPath, "src", "components", "example");
   fs.writeFileSync(
-    path.join(componentDir, "example.ts"),
-    `import { Component } from '../decorators/component.decorator';
+    path.join(projectPath, "renderer", "index.html"),
+    content.trim()
+  );
+}
+
+// مثال ایجاد کامپوننت
+function writeExampleComponent(projectPath: string) {
+  const content = `
+import { Component } from "../../../node_modules/electromond/dist/decorators/component.decorator";
 
 @Component({
-  selector: 'app-example',
-  template: './example.html',
-  styles: ['./example.css'],
+  selector: "app-example",
+  template: "./example.html",
+  styles: "./example.css",
 })
-export class ExampleComponent {
-  
-}`.trim()
-  );
+export class ExampleComponent {}
+`;
   fs.writeFileSync(
-    path.join(componentDir, "example.html"),
-    `<div class="example">Example Component Loaded!</div>`
-  );
-  fs.writeFileSync(
-    path.join(componentDir, "example.css"),
-    `.example { color: blue; font-size: 18px; }`
+    path.join(projectPath, "renderer", "components", "example.ts"),
+    content.trim()
   );
 }

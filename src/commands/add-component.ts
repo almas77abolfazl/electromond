@@ -17,16 +17,16 @@ export function addComponent(componentName: string) {
 
   fs.mkdirSync(componentPath, { recursive: true });
 
+  const htmlPath = path.join(__dirname, "../templates", "component.html");
+
   // کپی قالب‌های پیش‌فرض
-  copyTemplate(
-    "component.html",
-    path.join(componentPath, `${componentName}.html`)
-  );
-  copyTemplate(
-    "component.css",
-    path.join(componentPath, `${componentName}.css`)
-  );
-  copyTemplate("component.ts", path.join(componentPath, `${componentName}.ts`));
+  copyTemplate(htmlPath, path.join(componentPath, `${componentName}.html`));
+
+  const cssPath = path.join(__dirname, "../templates", "component.html");
+  copyTemplate(cssPath, path.join(componentPath, `${componentName}.css`));
+
+  const tsPath = path.join(__dirname, "../templates", "component.html");
+  copyTemplate(tsPath, path.join(componentPath, `${componentName}.ts`));
 
   console.log(`Component ${componentName} created successfully!`);
 }
