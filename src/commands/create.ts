@@ -37,7 +37,13 @@ export function createProject(projectName: string) {
   writeRendererIndex(projectPath);
   writeMainConfig(projectPath);
   writeCreateWindowAction(projectPath);
-  addComponent("example");
+  const componentPath = path.join(
+    projectPath,
+    "renderer",
+    "components",
+    "example"
+  );
+  addComponent("example", componentPath);
 
   execSync("npm install", { cwd: projectPath, stdio: "inherit" });
 

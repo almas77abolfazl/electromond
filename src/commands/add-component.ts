@@ -2,13 +2,15 @@ import fs from "fs";
 import path from "path";
 import { logError, logSuccess } from "../utils/index";
 
-export function addComponent(componentName: string) {
-  const componentPath = path.join(
-    process.cwd(),
-    "renderer",
-    "components",
-    componentName
-  );
+export function addComponent(componentName: string, componentPath?: string) {
+  if (!componentPath) {
+    componentPath = path.join(
+      process.cwd(),
+      "renderer",
+      "components",
+      componentName
+    );
+  }
 
   if (fs.existsSync(componentPath)) {
     logError(`Component ${componentName} already exists.`);
