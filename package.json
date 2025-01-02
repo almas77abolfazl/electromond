@@ -1,6 +1,6 @@
 {
   "name": "electromond",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A framework combining Electron and modular component creation for easy app development.",
   "main": "./bin/electromond.cli.js",
   "type": "module",
@@ -22,7 +22,6 @@
   "author": "Abolfazl Nasiri Almas",
   "license": "MIT",
   "dependencies": {
-    "electromond": "^0.0.2",
     "electron": "^26.0.0",
     "typescript": "^5.0.0"
   },
@@ -41,7 +40,8 @@
     "dist",
     "bin",
     "src",
-    "README.md"
+    "README.md",
+    "index.d.ts"
   ],
   "directories": {
     "test": "test"

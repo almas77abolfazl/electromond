@@ -63,7 +63,7 @@ function writePackageJson(projectPath: string, projectName: string) {
       build: "electromond build",
     },
     dependencies: {
-      electromond: "^0.0.5",
+      electromond: "^0.0.6",
       electron: "^26.0.0",
     },
     devDependencies: {
