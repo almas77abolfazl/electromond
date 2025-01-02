@@ -1,6 +1,6 @@
 {
   "name": "electromond",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A framework combining Electron and modular component creation for easy app development.",
   "main": "./bin/electromond.cli.js",
   "type": "module",
@@ -22,6 +22,7 @@
   "author": "Abolfazl Nasiri Almas",
   "license": "MIT",
   "dependencies": {
+    "electromond": "^0.0.2",
     "electron": "^26.0.0",
     "typescript": "^5.0.0"
   },
@@ -52,5 +53,6 @@
   "bugs": {
     "url": "https://github.com/almas77abolfazl/electromond/issues"
   },
-  "homepage": "https://github.com/almas77abolfazl/electromond#readme"
+  "homepage": "https://github.com/almas77abolfazl/electromond#readme",
+  "types": "index.d.ts"
 }

@@ -1,6 +1,8 @@
 import * as fs from "fs";
 import * as path from "path";
 import { execSync } from "child_process";
+import { logSuccess } from "../utils";
+import { addComponent } from "./add-component";
 
 export function createProject(projectName: string) {
   const projectPath = path.join(process.cwd(), projectName);
@@ -35,11 +37,11 @@ export function createProject(projectName: string) {
   writeRendererIndex(projectPath);
   writeMainConfig(projectPath);
   writeCreateWindowAction(projectPath);
-  writeExampleComponent(projectPath);
+  addComponent("example");
 
   execSync("npm install", { cwd: projectPath, stdio: "inherit" });
 
-  console.log(`Project ${projectName} created successfully!`);
+  logSuccess(`Project ${projectName} created successfully!`);
 }
 
 // فایل‌های موردنظر برای هر بخش را به ترتیب ایجاد می‌کنیم:
@@ -193,24 +195,6 @@ function writeRendererIndex(projectPath: string) {
 `;
   fs.writeFileSync(
     path.join(projectPath, "renderer", "index.html"),
-    content.trim()
-  );
-}
-
-// مثال ایجاد کامپوننت
-function writeExampleComponent(projectPath: string) {
-  const content = `
-import { Component } from "electromond";
-
-@Component({
-  selector: "app-example",
-  template: "./example.html",
-  styles: "./example.css",
-})
-export class ExampleComponent {}
-`;
-  fs.writeFileSync(
-    path.join(projectPath, "renderer", "components", "example.ts"),
     content.trim()
   );
 }

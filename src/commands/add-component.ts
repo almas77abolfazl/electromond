@@ -1,32 +1,49 @@
 import fs from "fs";
 import path from "path";
-import { copyTemplate } from "../utils/index";
+import { logError, logSuccess } from "../utils/index";
 
 export function addComponent(componentName: string) {
   const componentPath = path.join(
     process.cwd(),
-    "src",
+    "renderer",
     "components",
     componentName
   );
 
   if (fs.existsSync(componentPath)) {
-    console.error(`Component ${componentName} already exists.`);
+    logError(`Component ${componentName} already exists.`);
     return;
   }
 
-  fs.mkdirSync(componentPath, { recursive: true });
+  const tsContent = `
+import { Component } from "electromond";
 
-  const htmlPath = path.join(__dirname, "../templates", "component.html");
+@Component({
+  selector: "app-${componentName}",
+  template: "./${componentName}.html",
+  styles: "./${componentName}.css",
+})
+export class ${
+    String(componentName).charAt(0).toUpperCase() +
+    String(componentName).slice(1)
+  }Component {}
+`;
+  fs.writeFileSync(
+    path.join(componentPath, componentName + ".ts"),
+    tsContent.trim()
+  );
 
-  // کپی قالب‌های پیش‌فرض
-  copyTemplate(htmlPath, path.join(componentPath, `${componentName}.html`));
+  const htmlContent = `<div>${componentName} is working..</div>`;
+  fs.writeFileSync(
+    path.join(componentPath, componentName + ".html"),
+    htmlContent.trim()
+  );
 
-  const cssPath = path.join(__dirname, "../templates", "component.html");
-  copyTemplate(cssPath, path.join(componentPath, `${componentName}.css`));
+  const cssContent = ``;
+  fs.writeFileSync(
+    path.join(componentPath, componentName + ".css"),
+    cssContent.trim()
+  );
 
-  const tsPath = path.join(__dirname, "../templates", "component.html");
-  copyTemplate(tsPath, path.join(componentPath, `${componentName}.ts`));
-
-  console.log(`Component ${componentName} created successfully!`);
+  logSuccess(`Component ${componentName} created successfully!`);
 }
