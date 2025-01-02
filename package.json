@@ -1,6 +1,6 @@
 {
   "name": "electromond",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A framework combining Electron and modular component creation for easy app development.",
   "main": "./bin/electromond.cli.js",
   "type": "module",

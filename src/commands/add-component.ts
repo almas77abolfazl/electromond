@@ -15,6 +15,8 @@ export function addComponent(componentName: string) {
     return;
   }
 
+  fs.mkdirSync(componentPath, { recursive: true });
+
   const tsContent = `
 import { Component } from "electromond";
 
