@@ -1,4 +1,4 @@
 export * from "./add-component";
-export * from "./create";
+export * from "./new";
 export * from "./publish";
 export * from "./start";

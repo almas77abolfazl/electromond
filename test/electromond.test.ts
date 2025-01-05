@@ -1,5 +1,5 @@
 import { addComponent } from "../src/commands/add-component";
-import { createProject } from "../src/commands/create";
+import { createProject } from "../src/commands/new";
 import { startProject } from "../src/commands/start";
 
 describe("CLI new project Tests", () => {

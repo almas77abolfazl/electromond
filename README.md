@@ -20,14 +20,14 @@ yarn global add electromond
 
 
 Commands
-electromond create <project-name>: Create a new Electron project.
+electromond new <project-name>: Create a new Electron project.
 electromond add-component <component-name>: Add a new component.
 electromond start: Start the Electron app.
 electromond publish: Build and publish the app.
 Example Usage
 bash
 Copy code
-electromond create my-app
+electromond new my-app
 cd my-app
 electromond start
 electromond add-component header
