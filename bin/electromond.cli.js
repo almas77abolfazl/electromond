@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-import { createProject } from "../dist/commands/new.js";
 import { addComponent } from "../dist/commands/add-component.js";
-import { startProject } from "../dist/commands/start.js";
+import { createProject } from "../dist/commands/new.js";
 import { publishProject } from "../dist/commands/publish.js";
+import { startProject } from "../dist/commands/start.js";
 
 const args = process.argv.slice(2);
 

@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { logError, logSuccess } from "../utils/index";
+import { logError, logSuccess } from "../utils/cli-utils";
 
 export function addComponent(componentName: string, componentPath?: string) {
   if (!componentPath) {

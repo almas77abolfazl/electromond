@@ -1,5 +1,4 @@
-import { registerComponent } from "../utils/index";
-
+import { registerComponent } from "../utils/component-registry";
 
 interface ComponentOptions {
   selector: string;

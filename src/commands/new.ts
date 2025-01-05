@@ -1,7 +1,7 @@
+import { execSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
-import { execSync } from "child_process";
-import { logSuccess } from "../utils";
+import { logSuccess } from "../utils/cli-utils";
 import { addComponent } from "./add-component";
 
 export function createProject(projectName: string) {

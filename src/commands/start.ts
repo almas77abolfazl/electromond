@@ -1,8 +1,9 @@
 import { execSync, spawn } from "child_process";
-import * as path from "path";
-import * as fs from "fs";
 import electron from "electron";
-import { copyTemplate, log, logError, logSuccess } from "../utils/index";
+import * as fs from "fs";
+import * as path from "path";
+import { log, logError, logSuccess } from "../utils/cli-utils";
+import { copyTemplate } from "../utils/file-utils";
 
 export function startProject() {
   log("Starting project...");
