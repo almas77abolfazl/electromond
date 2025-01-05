@@ -4,12 +4,7 @@ import { logError, logSuccess } from "../utils/cli-utils";
 
 export function addComponent(componentName: string, componentPath?: string) {
   if (!componentPath) {
-    componentPath = path.join(
-      process.cwd(),
-      "renderer",
-      "components",
-      componentName
-    );
+    componentPath = path.join(process.cwd(), "renderer", "components", componentName);
   }
 
   if (fs.existsSync(componentPath)) {
@@ -27,27 +22,15 @@ import { Component } from "electromond";
   template: "./${componentName}.html",
   styles: "./${componentName}.css",
 })
-export class ${
-    String(componentName).charAt(0).toUpperCase() +
-    String(componentName).slice(1)
-  }Component {}
+export class ${String(componentName).charAt(0).toUpperCase() + String(componentName).slice(1)}Component {}
 `;
-  fs.writeFileSync(
-    path.join(componentPath, componentName + ".ts"),
-    tsContent.trim()
-  );
+  fs.writeFileSync(path.join(componentPath, componentName + ".ts"), tsContent.trim());
 
   const htmlContent = `<div>${componentName} is working..</div>`;
-  fs.writeFileSync(
-    path.join(componentPath, componentName + ".html"),
-    htmlContent.trim()
-  );
+  fs.writeFileSync(path.join(componentPath, componentName + ".html"), htmlContent.trim());
 
   const cssContent = ``;
-  fs.writeFileSync(
-    path.join(componentPath, componentName + ".css"),
-    cssContent.trim()
-  );
+  fs.writeFileSync(path.join(componentPath, componentName + ".css"), cssContent.trim());
 
   logSuccess(`Component ${componentName} created successfully!`);
 }

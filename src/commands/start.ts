@@ -39,11 +39,7 @@ export function startProject() {
         const cssFile = path.join(componentPath, `${component}.css`);
         const tsFile = path.join(componentPath, `${component}.ts`);
 
-        if (
-          fs.existsSync(htmlFile) &&
-          fs.existsSync(cssFile) &&
-          fs.existsSync(tsFile)
-        ) {
+        if (fs.existsSync(htmlFile) && fs.existsSync(cssFile) && fs.existsSync(tsFile)) {
           log(`Processing component: ${component}`);
 
           // Read HTML, CSS, and compile TypeScript
@@ -57,13 +53,8 @@ export function startProject() {
             return;
           }
 
-          const compiledJsFile = path.join(
-            path.dirname(tsFile),
-            `${component}.js`
-          );
-          const jsContent = fs.existsSync(compiledJsFile)
-            ? fs.readFileSync(compiledJsFile, "utf-8")
-            : "";
+          const compiledJsFile = path.join(path.dirname(tsFile), `${component}.js`);
+          const jsContent = fs.existsSync(compiledJsFile) ? fs.readFileSync(compiledJsFile, "utf-8") : "";
 
           // Combine all into a single file
           const componentOutput = `
@@ -72,10 +63,7 @@ export function startProject() {
             <script>${jsContent}</script>
           `;
 
-          fs.writeFileSync(
-            path.join(distPath, `${component}.rendered.html`),
-            componentOutput
-          );
+          fs.writeFileSync(path.join(distPath, `${component}.rendered.html`), componentOutput);
 
           logSuccess(`Component ${component} rendered successfully.`);
         }

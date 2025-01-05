@@ -1,14 +1,6 @@
-const components: Record<
-  string,
-  { template: string; styles: string; logic: any }
-> = {};
+const components: Record<string, { template: string; styles: string; logic: any }> = {};
 
-export function registerComponent(
-  selector: string,
-  template: string,
-  styles: string,
-  logic: any
-) {
+export function registerComponent(selector: string, template: string, styles: string, logic: any) {
   components[selector] = { template, styles, logic };
 }
 

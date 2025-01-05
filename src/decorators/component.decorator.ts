@@ -8,11 +8,6 @@ interface ComponentOptions {
 
 export function Component(options: ComponentOptions) {
   return function (constructor: any) {
-    registerComponent(
-      options.selector,
-      options.template,
-      options.styles,
-      constructor
-    );
+    registerComponent(options.selector, options.template, options.styles, constructor);
   };
 }

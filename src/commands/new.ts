@@ -15,18 +15,10 @@ export function createProject(projectName: string) {
   fs.mkdirSync(path.join(projectPath, "main", "actions"), { recursive: true });
   fs.mkdirSync(path.join(projectPath, "main", "config"), { recursive: true });
   fs.mkdirSync(path.join(projectPath, "main", "utils"), { recursive: true });
-  fs.mkdirSync(path.join(projectPath, "renderer", "components"), {
-    recursive: true,
-  });
-  fs.mkdirSync(path.join(projectPath, "renderer", "services"), {
-    recursive: true,
-  });
-  fs.mkdirSync(path.join(projectPath, "renderer", "pages"), {
-    recursive: true,
-  });
-  fs.mkdirSync(path.join(projectPath, "renderer", "assets"), {
-    recursive: true,
-  });
+  fs.mkdirSync(path.join(projectPath, "renderer", "components"), { recursive: true });
+  fs.mkdirSync(path.join(projectPath, "renderer", "services"), { recursive: true });
+  fs.mkdirSync(path.join(projectPath, "renderer", "pages"), { recursive: true });
+  fs.mkdirSync(path.join(projectPath, "renderer", "assets"), { recursive: true });
 
   // ایجاد فایل‌های اصلی
   writePackageJson(projectPath, projectName);
@@ -37,16 +29,9 @@ export function createProject(projectName: string) {
   writeRendererIndex(projectPath);
   writeMainConfig(projectPath);
   writeCreateWindowAction(projectPath);
-  const componentPath = path.join(
-    projectPath,
-    "renderer",
-    "components",
-    "example"
-  );
+  const componentPath = path.join(projectPath, "renderer", "components", "example");
   addComponent("example", componentPath);
-
   execSync("npm install", { cwd: projectPath, stdio: "inherit" });
-
   logSuccess(`Project ${projectName} created successfully!`);
 }
 
@@ -70,10 +55,7 @@ function writePackageJson(projectPath: string, projectName: string) {
       typescript: "^5.0.0",
     },
   };
-  fs.writeFileSync(
-    path.join(projectPath, "package.json"),
-    JSON.stringify(content, null, 2)
-  );
+  fs.writeFileSync(path.join(projectPath, "package.json"), JSON.stringify(content, null, 2));
 }
 
 // فایل electron-builder.json
@@ -85,10 +67,7 @@ function writeElectronBuilderConfig(projectPath: string) {
     },
     files: ["main/**/*", "renderer/**/*"],
   };
-  fs.writeFileSync(
-    path.join(projectPath, "electron-builder.json"),
-    JSON.stringify(content, null, 2)
-  );
+  fs.writeFileSync(path.join(projectPath, "electron-builder.json"), JSON.stringify(content, null, 2));
 }
 
 // فایل tsconfig.json
@@ -103,10 +82,7 @@ function writeTsConfig(projectPath: string) {
     },
     include: ["**/*"],
   };
-  fs.writeFileSync(
-    path.join(projectPath, "tsconfig.json"),
-    JSON.stringify(content, null, 2)
-  );
+  fs.writeFileSync(path.join(projectPath, "tsconfig.json"), JSON.stringify(content, null, 2));
 }
 
 // فایل .gitignore
@@ -163,10 +139,7 @@ export function createWindow() {
   });
 }
 `;
-  fs.writeFileSync(
-    path.join(projectPath, "main", "actions", "createWindow.ts"),
-    content.trim()
-  );
+  fs.writeFileSync(path.join(projectPath, "main", "actions", "createWindow.ts"), content.trim());
 }
 
 // فایل main/config/config.ts
@@ -177,10 +150,7 @@ export const config = {
   version: "1.0.0",
 };
 `;
-  fs.writeFileSync(
-    path.join(projectPath, "main", "config", "config.ts"),
-    content.trim()
-  );
+  fs.writeFileSync(path.join(projectPath, "main", "config", "config.ts"), content.trim());
 }
 
 // فایل renderer/index.html
@@ -200,8 +170,5 @@ function writeRendererIndex(projectPath: string) {
 </body>
 </html>
 `;
-  fs.writeFileSync(
-    path.join(projectPath, "renderer", "index.html"),
-    content.trim()
-  );
+  fs.writeFileSync(path.join(projectPath, "renderer", "index.html"), content.trim());
 }
