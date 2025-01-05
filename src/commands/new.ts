@@ -26,12 +26,13 @@ export function createProject(projectName: string) {
   writeTsConfig(projectPath);
   writeGitIgnore(projectPath);
   writeMainIndex(projectPath);
-  writeRendererIndex(projectPath);
+  writeRendererIndexHtml(projectPath);
+  writeRendererMainCss(projectPath);
   writeMainConfig(projectPath);
   writeCreateWindowAction(projectPath);
-  const componentPath = path.join(projectPath, "renderer", "components", "example");
-  addComponent("example", componentPath);
   execSync("npm install", { cwd: projectPath, stdio: "inherit" });
+  const componentPath = path.join(projectPath, "renderer", "components", "app");
+  addComponent("app", componentPath);
   logSuccess(`Project ${projectName} created successfully!`);
 }
 
@@ -153,8 +154,8 @@ export const config = {
   fs.writeFileSync(path.join(projectPath, "main", "config", "config.ts"), content.trim());
 }
 
-// فایل renderer/index.html
-function writeRendererIndex(projectPath: string) {
+
+function writeRendererIndexHtml(projectPath: string) {
   const content = `
 <!DOCTYPE html>
 <html lang="en">
@@ -162,13 +163,20 @@ function writeRendererIndex(projectPath: string) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Electromond App</title>
-  <link rel="stylesheet" href="styles/main.css">
+  <link rel="stylesheet" href="main.css">
 </head>
 <body>
   <h1>Welcome to Electromond</h1>
-  <div id="app"></div>
+  <div id="app">
+   <app-root></app-root>
+   </div>
 </body>
 </html>
 `;
   fs.writeFileSync(path.join(projectPath, "renderer", "index.html"), content.trim());
+}
+
+function writeRendererMainCss(projectPath: string) {
+  const content = ``;
+  fs.writeFileSync(path.join(projectPath, "renderer", "main.css"), content.trim());
 }
